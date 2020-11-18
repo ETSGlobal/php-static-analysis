@@ -1,0 +1,2 @@
+# Extend configuration from default organization settings. See https://github.com/ETSGlobal/.github/blob/master/.github/settings.yml
+_extends: .github
