@@ -1,26 +1,7 @@
-###> symfony/framework-bundle ###
-/.env.local
-/.env.local.php
-/.env.*.local
-/config/secrets/prod/prod.decrypt.private.php
-/public/bundles/
-/var/
-/vendor/
-###< symfony/framework-bundle ###
-###> phpunit/phpunit ###
-/phpunit.xml
-.phpunit.result.cache
-###< phpunit/phpunit ###
+/vendor
+/composer.lock
 
-###> squizlabs/php_codesniffer ###
+.phpunit.result.cache
+
 /.phpcs-cache
 .php_cs.cache
-###< squizlabs/php_codesniffer ###
-
-###> symfony/phpunit-bridge ###
-.phpunit
-.phpunit.result.cache
-/phpunit.xml
-###< symfony/phpunit-bridge ###
-
-/translations/*

@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<ruleset name="ETSGlobal" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../vendor/squizlabs/php_codesniffer/phpcs.xsd">
+    <config name="installed_paths" value="../../etsglobal/php-static-analysis/src,../../../src"/>
+
+    <rule ref="ETSGlobalCodingStandard.Logger.SnakeCaseContextKeys"/>
+</ruleset>

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<ruleset name="ETSGlobal Coding Standard"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../../vendor/squizlabs/php_codesniffer/phpcs.xsd">
+    <file>src</file>
+    <file>tests</file>
+
+    <exclude-pattern>tests/ETSGlobalCodingStandard/*/data/*</exclude-pattern>
+
+    <rule ref="./lib/phpcs/rules/base.xml"/>
+    <rule ref="./lib/phpcs/rules/etsglobal.xml"/>
+    <rule ref="./lib/phpcs/rules/psr.xml"/>
+    <rule ref="./lib/phpcs/rules/slevomat.xml"/>
+</ruleset>

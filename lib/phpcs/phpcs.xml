@@ -8,6 +8,7 @@
     <arg value="sp"/>
 
     <rule ref="./rules/base.xml"/>
+    <rule ref="./rules/etsglobal.xml"/>
     <rule ref="./rules/psr.xml"/>
     <rule ref="./rules/slevomat.xml"/>
 </ruleset>
