@@ -12,8 +12,19 @@
             <property name="fixable" type="boolean" value="true"/>
         </properties>
     </rule>
+    <!-- Checks that class/trait/interface members are in the correct order. -->
+    <rule ref="SlevomatCodingStandard.Classes.ClassStructure">
+        <!-- Exclude tests because protected setUp method is always first -->
+        <exclude-pattern>tests/*/*Test.php</exclude-pattern>
+    </rule>
+    <!-- Checks lines count between different class members, eg. between last property and first method. -->
+    <rule ref="SlevomatCodingStandard.Classes.ClassMemberSpacing"/>
     <!-- Disallows late static binding for constants. -->
     <rule ref="SlevomatCodingStandard.Classes.DisallowLateStaticBindingForConstants"/>
+    <!-- Disallows multi constant definition. -->
+    <rule ref="SlevomatCodingStandard.Classes.DisallowMultiConstantDefinition"/>
+    <!-- Disallows multi property definition. -->
+    <rule ref="SlevomatCodingStandard.Classes.DisallowMultiPropertyDefinition"/>
     <!-- Forbid empty lines around class declarations -->
     <rule ref="SlevomatCodingStandard.Classes.EmptyLinesAroundClassBraces">
         <properties>
@@ -21,8 +32,12 @@
             <property name="linesCountBeforeClosingBrace" value="0"/>
         </properties>
     </rule>
+    <!-- Checks that there is a certain number of blank lines between methods. -->
+    <rule ref="SlevomatCodingStandard.Classes.MethodSpacing"/>
     <!-- Class names should be referenced via ::class constant when possible. -->
     <rule ref="SlevomatCodingStandard.Classes.ModernClassNameReference"/>
+    <!-- Checks that there is a certain number of blank lines between propeties. -->
+    <rule ref="SlevomatCodingStandard.Classes.PropertySpacing"/>
     <!-- Prohibits multiple traits separated by commas in one use statement. -->
     <rule ref="SlevomatCodingStandard.Classes.TraitUseDeclaration"/>
     <!-- Enforces configurable number of lines before first use, after last use and between two use statements. -->
@@ -33,6 +48,12 @@
     </rule>
     <!-- Forbid dead code -->
     <rule ref="SlevomatCodingStandard.Classes.UnusedPrivateElements"/>
+    <!-- Forbid useless late static binding. -->
+    <rule ref="SlevomatCodingStandard.Classes.UselessLateStaticBinding"/>
+    <!-- Reports @deprecated annotations without description. -->
+    <rule ref="SlevomatCodingStandard.Commenting.DeprecatedAnnotationDeclaration"/>
+    <!-- Forbid empty comments -->
+    <rule ref="SlevomatCodingStandard.Commenting.EmptyComment"/>
     <!-- Forbid useless annotations - Git and LICENCE file provide more accurate information -->
     <rule ref="SlevomatCodingStandard.Commenting.ForbiddenAnnotations">
         <properties>
@@ -50,8 +71,6 @@
             </property>
         </properties>
     </rule>
-    <!-- Forbid empty comments -->
-    <rule ref="SlevomatCodingStandard.Commenting.EmptyComment"/>
     <!-- Forbid useless comments -->
     <rule ref="SlevomatCodingStandard.Commenting.ForbiddenComments">
         <properties>
@@ -64,6 +83,8 @@
     </rule>
     <!-- report invalid format of inline phpDocs with @var -->
     <rule ref="SlevomatCodingStandard.Commenting.InlineDocCommentDeclaration"/>
+    <!-- Requires property comments with single-line content to be written as one-liners. -->
+    <rule ref="SlevomatCodingStandard.Commenting.RequireOneLinePropertyDocComment"/>
     <!-- Reports documentation comments containing only {@inheritDoc} annotation because inheritance is automatic and it's not needed to use a special annotation for it. -->
     <rule ref="SlevomatCodingStandard.Commenting.UselessInheritDocComment"/>
     <!-- Forbid assignments in conditions -->
@@ -78,12 +99,22 @@
     <rule ref="SlevomatCodingStandard.ControlStructures.DisallowEmpty"/>
     <!-- Require usage of early exit -->
     <rule ref="SlevomatCodingStandard.ControlStructures.EarlyExit"/>
+    <!-- Require an empty line before return statements. -->
+    <rule ref="SlevomatCodingStandard.ControlStructures.JumpStatementsSpacing">
+        <properties>
+            <property name="tokensToCheck" type="array">
+                <element value="T_RETURN" />
+            </property>
+        </properties>
+    </rule>
     <!-- Require language constructs without parentheses -->
     <rule ref="SlevomatCodingStandard.ControlStructures.LanguageConstructWithParentheses"/>
     <!-- Require new instances with parentheses -->
     <rule ref="SlevomatCodingStandard.ControlStructures.NewWithParentheses"/>
     <!-- Require usage of null coalesce operator when possible -->
     <rule ref="SlevomatCodingStandard.ControlStructures.RequireNullCoalesceOperator"/>
+    <!-- Require usage of null coalesce equal operator when possible -->
+    <rule ref="SlevomatCodingStandard.ControlStructures.RequireNullCoalesceEqualOperator"/>
     <!-- Requires short ternary operator ?: when possible. -->
     <rule ref="SlevomatCodingStandard.ControlStructures.RequireShortTernaryOperator"/>
     <!-- Reports useless conditions where both branches return true or false. -->
@@ -94,8 +125,14 @@
     <rule ref="SlevomatCodingStandard.Exceptions.DeadCatch"/>
     <!-- Require using Throwable instead of Exception -->
     <rule ref="SlevomatCodingStandard.Exceptions.ReferenceThrowableOnly"/>
+    <!-- Checks fn declaration. -->
+    <rule ref="SlevomatCodingStandard.Functions.ArrowFunctionDeclaration"/>
+    <!-- Requires arrow functions. -->
+    <rule ref="SlevomatCodingStandard.Functions.RequireArrowFunction"/>
     <!-- Reports closures not using $this that are not declared static. -->
     <rule ref="SlevomatCodingStandard.Functions.StaticClosure"/>
+    <!-- Some functions have $strict parameter. This sniff reports calls to these functions without the parameter or with $strict = false. -->
+    <rule ref="SlevomatCodingStandard.Functions.StrictCall"/>
     <!-- Require comma after the last parameter in function or method call (PHP >=7.3) -->
     <rule ref="SlevomatCodingStandard.Functions.TrailingCommaInCall"/>
     <!-- Looks for unused inherited variables passed to closure via use. -->
@@ -177,6 +214,8 @@
     <rule ref="SlevomatCodingStandard.TypeHints.NullableTypeForNullDefaultValue"/>
     <!-- Require one space between typehint and variable, require no space between nullability sign and typehint -->
     <rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHintSpacing"/>
+    <!-- Require one space between typehint and property, require no space between nullability sign and typehint -->
+    <rule ref="SlevomatCodingStandard.TypeHints.PropertyTypeHintSpacing"/>
     <!-- Require space around colon in return types -->
     <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHintSpacing">
         <properties>
@@ -190,12 +229,13 @@
         <exclude name="SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingTraversableTypeHintSpecification" />
     </rule>
     <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHint">
-        <exclude name="SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingNativeTypeHint" />
         <exclude name="SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification" />
     </rule>
     <rule ref="SlevomatCodingStandard.Commenting.UselessFunctionDocComment" />
     <!-- Reports useless @var annotation (or whole documentation comment) for constants because the type of constant is always clear. -->
     <rule ref="SlevomatCodingStandard.TypeHints.UselessConstantTypeHint"/>
+    <!-- Disallows use of super global variables. -->
+    <rule ref="SlevomatCodingStandard.Variables.DisallowSuperGlobalVariable"/>
     <!-- Looks for duplicate assignments to a variable. -->
     <rule ref="SlevomatCodingStandard.Variables.DuplicateAssignmentToVariable"/>
     <!-- Looks for unused variables. -->
@@ -203,13 +243,6 @@
         <properties>
             <!-- ignore unused $value in foreach when only $key is used -->
             <property name="ignoreUnusedValuesWhenOnlyKeysAreUsedInForeach" type="boolean" value="true"/>
-        </properties>
-    </rule>
-    <rule ref="SlevomatCodingStandard.ControlStructures.JumpStatementsSpacing">
-        <properties>
-            <property name="tokensToCheck" type="array">
-                <element value="T_RETURN" />
-            </property>
         </properties>
     </rule>
     <!-- Looks for useless variables. -->
