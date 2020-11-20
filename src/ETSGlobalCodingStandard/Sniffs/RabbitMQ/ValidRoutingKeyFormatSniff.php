@@ -40,7 +40,7 @@ class ValidRoutingKeyFormatSniff extends AbstractLineCall
             return;
         }
 
-        if ($tokens[$stackPointer - 2]['type'] !== 'T_VARIABLE' || $tokens[$stackPointer - 2]['content'] !== '$this' ) {
+        if ($tokens[$stackPointer - 2]['type'] !== 'T_VARIABLE' || $tokens[$stackPointer - 2]['content'] !== '$this') {
             return;
         }
 
@@ -64,6 +64,10 @@ class ValidRoutingKeyFormatSniff extends AbstractLineCall
         }
 
         $routingKeyPointer = ArrayHelper::getValuePointerAtKey($phpcsFile, $startPointer, 'routing_key');
+        if (!$routingKeyPointer) {
+            return;
+        }
+
         if (!in_array($tokens[$routingKeyPointer]['type'], ['T_CONSTANT_ENCAPSED_STRING', 'T_STRING'], true)) {
             // Unsupported routing key value
             return;
@@ -72,6 +76,8 @@ class ValidRoutingKeyFormatSniff extends AbstractLineCall
         $routingKey = $this->extractRoutingKeyToken($phpcsFile, $routingKeyPointer);
         if ($routingKey === null) {
             $phpcsFile->addErrorOnLine(sprintf('The rounting_key was not found.'), $tokens[$routingKeyPointer]['line'], self::CODE_MISSING_ROUTING_KEY);
+
+            return;
         }
 
         $parts = explode('.', str_replace('\'', '', $routingKey['content']));
@@ -81,9 +87,11 @@ class ValidRoutingKeyFormatSniff extends AbstractLineCall
             return;
         }
 
-        if (!StringHelper::endsWith($parts[3], 'ed')) {
-            $phpcsFile->addErrorOnLine(sprintf('Invalid rounting_key "%s" with format "application.entity.id.event": The event must be a verb in past form (ending with -ed)', $routingKey['content']), $tokens[$routingKeyPointer]['line'], self::CODE_INVALID_ROUTING_KEY_FORMAT);
+        if (StringHelper::endsWith($parts[3], 'ed')) {
+            return;
         }
+
+        $phpcsFile->addErrorOnLine(sprintf('Invalid rounting_key "%s" with format "application.entity.id.event": The event must be a verb in past form (ending with -ed)', $routingKey['content']), $tokens[$routingKeyPointer]['line'], self::CODE_INVALID_ROUTING_KEY_FORMAT);
     }
 
     private function getMessagePropertiesArgumentPointer(File $phpcsFile, int $stackPointer): ?int
@@ -122,6 +130,10 @@ class ValidRoutingKeyFormatSniff extends AbstractLineCall
             }
 
             $firstArgPointer = ArgumentHelper::findArgumentPointer($phpcsFile, $openingParenthesisPointer, 1);
+            if (!$firstArgPointer) {
+                return null;
+            }
+
             $routingKeyPointer = $phpcsFile->findNext([T_CONSTANT_ENCAPSED_STRING], $firstArgPointer);
             if ($routingKeyPointer === false) {
                 return null;

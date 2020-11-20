@@ -7,7 +7,6 @@ namespace ETSGlobalCodingStandard\Sniffs\RabbitMQ;
 use ETSGlobalCodingStandard\Helpers\ArgumentHelper;
 use ETSGlobalCodingStandard\Helpers\ArrayHelper;
 use PHP_CodeSniffer\Files\File;
-use SlevomatCodingStandard\Helpers\StringHelper;
 use SlevomatCodingStandard\Sniffs\Functions\AbstractLineCall;
 
 /**
@@ -65,6 +64,7 @@ class ValidMessageStructureSniff extends AbstractLineCall
             // The message only has a "data" property.
             return;
         }
+
         if ($count === 2 && ArrayHelper::hasKey($phpcsFile, $startPointer, 'meta')) {
             // The message has both "data" and "meta" properties.
             return;

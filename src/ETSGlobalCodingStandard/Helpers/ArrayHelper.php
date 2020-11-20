@@ -12,10 +12,7 @@ class ArrayHelper
     /**
      * Checks whether the pointer is positioned on an array.
      *
-     * @param File      $phpcsFile
-     * @param int       $arrayPointer   The pointer to the array.
-     *
-     * @return bool
+     * @param int       $arrayPointer The pointer to the array.
      */
     public static function isArray(File $phpcsFile, int $arrayPointer): bool
     {
@@ -27,9 +24,8 @@ class ArrayHelper
     /**
      * Counts the number of elements in the array.
      *
-     * @param File  $phpcsFile
-     * @param int   $arrayPointer   The pointer to the array.
-     * @return int                  The size of the array.
+     * @param int   $arrayPointer The pointer to the array.
+     * @return int                The size of the array.
      */
     public static function count(File $phpcsFile, int $arrayPointer): int
     {
@@ -41,12 +37,12 @@ class ArrayHelper
         $currentPointer = $arrayPointer + 1;
         while ($currentPointer < $closeBracketPointer) {
             $nextDelimiterPointer = $phpcsFile->findEndOfStatement($currentPointer, [T_DOUBLE_ARROW]);
-            if ($nextDelimiterPointer === false || $currentPointer === $nextDelimiterPointer) {
+            if (!$nextDelimiterPointer || $currentPointer === $nextDelimiterPointer) {
                 break;
             }
 
             $item = TokenHelper::findNextEffective($phpcsFile, $currentPointer, $nextDelimiterPointer);
-            if ($item === false) {
+            if (!$item) {
                 break;
             }
 
@@ -66,11 +62,8 @@ class ArrayHelper
     /**
      * Checks whether an array contains a key.
      *
-     * @param File      $phpcsFile
-     * @param int       $arrayPointer   The pointer to the array opening bracket.
-     * @param string    $key            The key to search for.
-     *
-     * @return bool
+     * @param int       $arrayPointer The pointer to the array opening bracket.
+     * @param string    $key          The key to search for.
      */
     public static function hasKey(File $phpcsFile, int $arrayPointer, string $key): bool
     {
@@ -80,11 +73,8 @@ class ArrayHelper
     /**
      * Returns the pointer to the value at given key.
      *
-     * @param File      $phpcsFile
-     * @param int       $arrayPointer   The pointer to the array opening bracket.
-     * @param string    $key            The key to of the array entry.
-     *
-     * @return int|null
+     * @param int       $arrayPointer The pointer to the array opening bracket.
+     * @param string    $key          The key to of the array entry.
      */
     public static function getValuePointerAtKey(File $phpcsFile, int $arrayPointer, string $key): ?int
     {
@@ -94,12 +84,12 @@ class ArrayHelper
         }
 
         $doubleArrowPointer = $phpcsFile->findNext([T_DOUBLE_ARROW], $keyPointer);
-        if ($doubleArrowPointer === false) {
+        if (!$doubleArrowPointer) {
             return null;
         }
 
         $valuePointer = TokenHelper::findNextEffective($phpcsFile, $doubleArrowPointer + 1);
-        if ($valuePointer === false) {
+        if (!$valuePointer) {
             return null;
         }
 
@@ -109,11 +99,8 @@ class ArrayHelper
     /**
      * Finds the pointer to the given key string.
      *
-     * @param File      $phpcsFile
-     * @param int       $arrayPointer   The pointer to the array opening bracket.
-     * @param string    $key            The key to search for.
-     *
-     * @return int|null
+     * @param int       $arrayPointer The pointer to the array opening bracket.
+     * @param string    $key          The key to search for.
      */
     private static function findKey(File $phpcsFile, int $arrayPointer, string $key): ?int
     {
@@ -124,7 +111,7 @@ class ArrayHelper
         $currentPointer = $arrayPointer + 1;
         while ($currentPointer < $closeBracketPointer) {
             $nextDelimiterPointer = $phpcsFile->findEndOfStatement($currentPointer, [T_DOUBLE_ARROW]);
-            if ($nextDelimiterPointer === false) {
+            if (!$nextDelimiterPointer) {
                 // Error
                 return null;
             }
@@ -159,5 +146,4 @@ class ArrayHelper
 
         return null;
     }
-
 }

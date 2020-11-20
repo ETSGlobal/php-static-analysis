@@ -12,7 +12,6 @@ class ArgumentHelper
     /**
      * Find an argument passed to a function call.
      *
-     * @param File  $phpcsFile
      * @param int   $openParenthesisPointer The pointer to the function call opening parenthesis.
      * @param int   $argumentNumber         The position number of the argument looked for.
      *
@@ -30,7 +29,7 @@ class ArgumentHelper
             $nextDelimiterPointer = $phpcsFile->findEndOfStatement($currentPointer, [T_DOUBLE_ARROW]);
             if ($currentArgumentNumber === $argumentNumber) {
                 $argumentPointer = TokenHelper::findNextEffective($phpcsFile, $currentPointer, $nextDelimiterPointer);
-                if ($argumentPointer === false) {
+                if (!$argumentPointer) {
                     // Cannot find any valid argument
                     return null;
                 }

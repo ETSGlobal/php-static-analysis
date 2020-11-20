@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace ETSGlobalCodingStandard\Sniffs\RabbitMQ;
 
-use ETSGlobalCodingStandard\Helpers\ArgumentHelper;
-use ETSGlobalCodingStandard\Helpers\ArrayHelper;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
-use Prophecy\Util\StringUtil;
 use SlevomatCodingStandard\Helpers\ClassHelper;
 use SlevomatCodingStandard\Helpers\FunctionHelper;
 use SlevomatCodingStandard\Helpers\StringHelper;
@@ -23,7 +20,7 @@ class ValidPublisherMethodNameSniff implements Sniff
 {
     public const CODE_INVALID_PUBLISHER_METHOD_NAME = 'InvalidPublisherMethodName';
 
-    public function register()
+    public function register(): array
     {
         return [
             T_CLASS,
@@ -53,7 +50,7 @@ class ValidPublisherMethodNameSniff implements Sniff
         }
     }
 
-    private function checkFunction(File $phpcsFile, $functionPointer): void
+    private function checkFunction(File $phpcsFile, int $functionPointer): void
     {
         if (!FunctionHelper::isMethod($phpcsFile, $functionPointer)) {
             // We are not in presence of a method but rather a normal function.
