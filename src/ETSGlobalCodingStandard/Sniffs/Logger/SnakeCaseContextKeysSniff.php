@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ETSGlobalCodingStandard\Sniffs\Logger;
 
+use ETSGlobalCodingStandard\Helpers\ArgumentHelper;
+use ETSGlobalCodingStandard\Helpers\ArrayHelper;
 use PHP_CodeSniffer\Files\File;
 use SlevomatCodingStandard\Sniffs\Functions\AbstractLineCall;
 
@@ -33,68 +35,68 @@ class SnakeCaseContextKeysSniff extends AbstractLineCall
     /**
      * {@inheritDoc}
      */
-    public function process(File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPointer)
     {
-        if (!$this->isCall($phpcsFile, $stackPtr)) {
+        if (!$this->isCall($phpcsFile, $stackPointer)) {
             return;
         }
 
         $tokens = $phpcsFile->getTokens();
-        if ($tokens[$stackPtr - 1]['type'] !== 'T_OBJECT_OPERATOR') {
+        if ($tokens[$stackPointer - 1]['type'] !== 'T_OBJECT_OPERATOR') {
             return;
         }
 
-        if (!in_array($tokens[$stackPtr]['content'], self::$loggerMethods, true)) {
+        if (!in_array($tokens[$stackPointer]['content'], self::$loggerMethods, true)) {
             return;
         }
 
-        if (!$this->isLoggerPropertyCall($phpcsFile, $stackPtr - 2) && !$this->isLoggerVariableCall($phpcsFile, $stackPtr - 2)) {
+        if (!$this->isLoggerPropertyCall($phpcsFile, $stackPointer - 2) && !$this->isLoggerVariableCall($phpcsFile, $stackPointer - 2)) {
             return;
         }
 
-        $contextArrayStartPtr = $this->getContextParameterPtr($phpcsFile, $stackPtr);
-        if ($contextArrayStartPtr === null) {
+        $contextArrayStartPointer = $this->getContextParameterPointer($phpcsFile, $stackPointer);
+        if ($contextArrayStartPointer === null) {
             return;
         }
 
-        $contextArrayStart = $tokens[$contextArrayStartPtr];
-        $contextArrayEndPtr = $contextArrayStart['bracket_closer'];
+        $contextArrayStart = $tokens[$contextArrayStartPointer];
+        $contextArrayEndPointer = $contextArrayStart['bracket_closer'];
 
-        $this->checkContextArray($phpcsFile, $contextArrayStartPtr, $contextArrayEndPtr);
+        $this->checkContextArray($phpcsFile, $contextArrayStartPointer, $contextArrayEndPointer);
     }
 
-    private function checkContextArray(File $phpcsFile, int $startPtr, int $endPtr): void
+    private function checkContextArray(File $phpcsFile, int $startPointer, int $endPointer): void
     {
         $tokens = $phpcsFile->getTokens();
-        $currentPtr = $startPtr;
-        while ($currentPtr < $endPtr) {
-            $entryEndPtr = $phpcsFile->findNext([T_COMMA, T_CLOSE_SHORT_ARRAY, T_CLOSE_PARENTHESIS], $currentPtr, $endPtr + 1);
-            if ($entryEndPtr === false) {
+        $currentPointer = $startPointer;
+        while ($currentPointer < $endPointer) {
+            $entryEndPointer = $phpcsFile->findEndOfStatement($currentPointer + 1, [T_DOUBLE_ARROW]);
+            if (!$entryEndPointer) {
                 break;
             }
 
-            $entryPtr = $phpcsFile->findNext([T_CONSTANT_ENCAPSED_STRING, T_VARIABLE], $currentPtr, $entryEndPtr);
-            if ($entryPtr === false) {
+            $entryPointer = $phpcsFile->findNext([T_CONSTANT_ENCAPSED_STRING, T_VARIABLE], $currentPointer, $entryEndPointer + 1);
+            if ($entryPointer === false) {
                 break;
             }
 
-            $doubleArrowPtr = $phpcsFile->findNext([T_DOUBLE_ARROW], $entryPtr, $entryEndPtr);
-            if ($doubleArrowPtr === false) {
-                $phpcsFile->addErrorOnLine('The context array passed as argument 2 must have all keys set.', $tokens[$entryPtr]['line'], self::CODE_CONTEXT_KEY_NOT_SET);
-                $currentPtr = $entryEndPtr + 1;
+            $doubleArrowPointer = $phpcsFile->findNext([T_DOUBLE_ARROW], $entryPointer, $entryEndPointer);
+            if ($doubleArrowPointer === false) {
+                $phpcsFile->addErrorOnLine('The context array passed as argument 2 must have all keys set.', $tokens[$entryPointer]['line'], self::CODE_CONTEXT_KEY_NOT_SET);
+                $currentPointer = $entryEndPointer + 1;
 
                 continue;
             }
 
-            if ($tokens[$entryPtr]['type'] === 'T_CONSTANT_ENCAPSED_STRING') {
-                $value = str_replace('\'', '', $tokens[$entryPtr]['content']);
+            if ($tokens[$entryPointer]['type'] === 'T_CONSTANT_ENCAPSED_STRING') {
+                $value = str_replace('\'', '', $tokens[$entryPointer]['content']);
 
                 if (!$this->isSnakeCase($value)) {
-                    $phpcsFile->addErrorOnLine(sprintf('The key "%s" of context array does not match the snake_case format.', $value), $tokens[$entryPtr]['line'], self::CODE_NO_SNAKE_CASE_CONTEXT_KEY);
+                    $phpcsFile->addErrorOnLine(sprintf('The key "%s" of context array does not match the snake_case format.', $value), $tokens[$entryPointer]['line'], self::CODE_NO_SNAKE_CASE_CONTEXT_KEY);
                 }
             }
 
-            $currentPtr = $entryEndPtr + 1;
+            $currentPointer = $entryEndPointer + 1;
         }
     }
 
@@ -108,48 +110,49 @@ class SnakeCaseContextKeysSniff extends AbstractLineCall
         return $result === 0;
     }
 
-    private function getContextParameterPtr(File $phpcsFile, int $stackPtr): ?int
+    private function getContextParameterPointer(File $phpcsFile, int $stackPointer): ?int
     {
-        $openParenthesisPtr = $phpcsFile->findNext(T_OPEN_PARENTHESIS, $stackPtr);
-        if ($openParenthesisPtr === false) {
+        $openParenthesisPointer = $phpcsFile->findNext(T_OPEN_PARENTHESIS, $stackPointer);
+        if ($openParenthesisPointer === false) {
             return null;
         }
 
-        $tokens = $phpcsFile->getTokens();
-        $openParenthesis = $tokens[$openParenthesisPtr];
-        $closeParenthesisPtr = $openParenthesis['parenthesis_closer'];
-
-        $contextArrayStartPtr = $phpcsFile->findNext([T_ARRAY, T_OPEN_SHORT_ARRAY], $openParenthesisPtr, $closeParenthesisPtr);
-        if ($contextArrayStartPtr === false) {
+        $contextArgumentPointer = ArgumentHelper::findArgumentPointer($phpcsFile, $openParenthesisPointer, 2);
+        if ($contextArgumentPointer === null) {
             // No context argument
             return null;
         }
 
-        return $contextArrayStartPtr;
+        if (!ArrayHelper::isArray($phpcsFile, $contextArgumentPointer)) {
+            // Context is not an array (maybe a variable), we can't resolve its value.
+            return null;
+        }
+
+        return $contextArgumentPointer;
     }
 
-    private function isLoggerPropertyCall(File $phpcsFile, int $stackPtr): bool
+    private function isLoggerPropertyCall(File $phpcsFile, int $stackPointer): bool
     {
         $tokens = $phpcsFile->getTokens();
-        if ($tokens[$stackPtr]['type'] !== 'T_STRING') {
+        if ($tokens[$stackPointer]['type'] !== 'T_STRING') {
             return false;
         }
 
-        if ($tokens[$stackPtr]['content'] !== 'logger') {
+        if ($tokens[$stackPointer]['content'] !== 'logger') {
             return false;
         }
 
-        if ($tokens[$stackPtr - 1]['type'] !== 'T_OBJECT_OPERATOR') {
+        if ($tokens[$stackPointer - 1]['type'] !== 'T_OBJECT_OPERATOR') {
             return false;
         }
 
-        return $tokens[$stackPtr - 2]['type'] === 'T_VARIABLE' && $tokens[$stackPtr - 2]['content'] === '$this';
+        return $tokens[$stackPointer - 2]['type'] === 'T_VARIABLE' && $tokens[$stackPointer - 2]['content'] === '$this';
     }
 
-    private function isLoggerVariableCall(File $phpcsFile, int $stackPtr): bool
+    private function isLoggerVariableCall(File $phpcsFile, int $stackPointer): bool
     {
         $tokens = $phpcsFile->getTokens();
 
-        return $tokens[$stackPtr]['type'] === 'T_VARIABLE' && $tokens[$stackPtr]['content'] === '$logger';
+        return $tokens[$stackPointer]['type'] === 'T_VARIABLE' && $tokens[$stackPointer]['content'] === '$logger';
     }
 }

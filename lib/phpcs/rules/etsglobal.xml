@@ -3,4 +3,7 @@
     <config name="installed_paths" value="../../etsglobal/php-static-analysis/src,../../../src"/>
 
     <rule ref="ETSGlobalCodingStandard.Logger.SnakeCaseContextKeys"/>
+    <rule ref="ETSGlobalCodingStandard.RabbitMQ.ValidMessageStructure"/>
+    <rule ref="ETSGlobalCodingStandard.RabbitMQ.ValidPublisherMethodName"/>
+    <rule ref="ETSGlobalCodingStandard.RabbitMQ.ValidRoutingKeyFormat"/>
 </ruleset>

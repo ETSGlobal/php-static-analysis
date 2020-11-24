@@ -1,7 +1,7 @@
 {
     "name": "etsglobal/php-static-analysis",
     "description": "Static analysis tools configuration for PHP projects",
-    "type": "library",
+    "type": "phpcodesniffer-standard",
     "license": "MIT",
     "require": {
         "php": "^7.2 || ^8.0",
