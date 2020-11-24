@@ -24,6 +24,18 @@ class Foo
             ]
         );
 
+        $this->logger->info(
+            'User #{user_id} {email} anonymised successfully.',
+            [
+                'user_id' => $anonymisedUserData->getUserData()->get('id'),
+                'email' => $anonymisedUserData->getUserData()->get('email'),
+                'message_id' => $message->getId(),
+                'class' => self::class,
+                'line' => __LINE__,
+            ]
+        );
+
+
         $this->logger->invalidMethodName('some text', ['invalidKey' => 'value']);
     }
 }

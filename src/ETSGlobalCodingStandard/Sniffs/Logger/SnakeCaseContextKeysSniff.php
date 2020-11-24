@@ -70,12 +70,12 @@ class SnakeCaseContextKeysSniff extends AbstractLineCall
         $tokens = $phpcsFile->getTokens();
         $currentPointer = $startPointer;
         while ($currentPointer < $endPointer) {
-            $entryEndPointer = $phpcsFile->findNext([T_COMMA, T_CLOSE_SHORT_ARRAY, T_CLOSE_PARENTHESIS], $currentPointer, $endPointer + 1);
-            if ($entryEndPointer === false) {
+            $entryEndPointer = $phpcsFile->findEndOfStatement($currentPointer + 1, [T_DOUBLE_ARROW]);
+            if (!$entryEndPointer) {
                 break;
             }
 
-            $entryPointer = $phpcsFile->findNext([T_CONSTANT_ENCAPSED_STRING, T_VARIABLE], $currentPointer, $entryEndPointer);
+            $entryPointer = $phpcsFile->findNext([T_CONSTANT_ENCAPSED_STRING, T_VARIABLE], $currentPointer, $entryEndPointer + 1);
             if ($entryPointer === false) {
                 break;
             }
