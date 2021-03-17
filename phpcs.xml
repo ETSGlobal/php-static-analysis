@@ -7,13 +7,10 @@
 
     <exclude-pattern>tests/ETSGlobalCodingStandard/*/data/*</exclude-pattern>
 
+    <config name="installed_paths" value="../../slevomat/coding-standard,../../../src"/>
+
     <rule ref="./lib/phpcs/rules/base.xml"/>
     <rule ref="./lib/phpcs/rules/etsglobal.xml"/>
     <rule ref="./lib/phpcs/rules/psr.xml"/>
     <rule ref="./lib/phpcs/rules/slevomat.xml"/>
-
-    <rule ref="SlevomatCodingStandard.Functions.TrailingCommaInCall">
-        <!-- Exclude to pass tests on PHP 7.2 -->
-        <exclude name="SlevomatCodingStandard.Functions.TrailingCommaInCall.MissingTrailingComma"/>
-    </rule>
 </ruleset>
