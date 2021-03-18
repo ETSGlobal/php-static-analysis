@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ETSGlobalCodingStandard\Sniffs\Doctrine;
 
 use ETSGlobalCodingStandard\Helpers\PropertyHelper;
+use ETSGlobalCodingStandard\Helpers\WildcardHelper;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use SlevomatCodingStandard\Helpers\FunctionHelper;
@@ -27,12 +28,12 @@ class ForbidRepositoryInjectionSniff implements Sniff
     public const FORBIDDEN_REPOSITORY_PROPERTY = 'ForbiddenRepositoryProperty';
 
     /**
-     * All classes within this namespace will be considered to be Doctrine repositories.
+     * All classes matching these FQCN glob patterns will be considered to be Doctrine repositories.
      *
      * @var string[]
      */
-    public array $repositoryNamespaces = [
-        'App\Repository',
+    public array $repositoryNamespacePatterns = [
+        'App\Repository\*Repository',
     ];
 
     public function register(): array
@@ -111,8 +112,8 @@ class ForbidRepositoryInjectionSniff implements Sniff
 
     private function validateType(string $fqn): bool
     {
-        foreach ($this->repositoryNamespaces as $repositoryNamespace) {
-            if (strpos($fqn, $repositoryNamespace . '\\') === 0) {
+        foreach ($this->repositoryNamespacePatterns as $repositoryPattern) {
+            if (WildcardHelper::match($repositoryPattern, $fqn)) {
                 return false;
             }
         }
