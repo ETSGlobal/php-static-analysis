@@ -80,7 +80,7 @@ class ValidPublisherMethodNameSniff implements Sniff
         $phpcsFile->addErrorOnLine(
             'Invalid publisher method name. It should be a verb in the past form (engind with -ed)',
             $tokens[$methodNamePointer]['line'],
-            self::CODE_INVALID_PUBLISHER_METHOD_NAME
+            self::CODE_INVALID_PUBLISHER_METHOD_NAME,
         );
     }
 }

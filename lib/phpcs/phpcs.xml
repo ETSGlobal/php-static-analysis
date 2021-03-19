@@ -6,6 +6,8 @@
     <!-- Show progress of the run -->
     <arg value="sp"/>
 
+    <config name="installed_paths" value="../../slevomat/coding-standard,../../etsglobal/php-static-analysis/src"/>
+
     <rule ref="./rules/base.xml"/>
     <rule ref="./rules/etsglobal.xml"/>
     <rule ref="./rules/psr.xml"/>
