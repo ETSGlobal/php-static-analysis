@@ -36,6 +36,8 @@
     <rule ref="SlevomatCodingStandard.Classes.ModernClassNameReference"/>
     <!-- Checks that there is a certain number of blank lines between propeties. -->
     <rule ref="SlevomatCodingStandard.Classes.PropertySpacing"/>
+    <!-- Requires use of constructor property promotion. PHP 8.0+ only -->
+    <rule ref="SlevomatCodingStandard.Classes.RequireConstructorPropertyPromotion"/>
     <!-- Prohibits multiple traits separated by commas in one use statement. -->
     <rule ref="SlevomatCodingStandard.Classes.TraitUseDeclaration"/>
     <!-- Enforces configurable number of lines before first use, after last use and between two use statements. -->
@@ -44,8 +46,6 @@
             <property name="linesCountBeforeFirstUse" value="0"/>
         </properties>
     </rule>
-    <!-- Forbid dead code -->
-    <rule ref="SlevomatCodingStandard.Classes.UnusedPrivateElements"/>
     <!-- Forbid useless late static binding. -->
     <rule ref="SlevomatCodingStandard.Classes.UselessLateStaticBinding"/>
     <!-- Reports @deprecated annotations without description. -->
@@ -83,6 +83,8 @@
     <rule ref="SlevomatCodingStandard.Commenting.InlineDocCommentDeclaration"/>
     <!-- Requires property comments with single-line content to be written as one-liners. -->
     <rule ref="SlevomatCodingStandard.Commenting.RequireOneLinePropertyDocComment"/>
+    <!-- Reports useless function doc comments -->
+    <rule ref="SlevomatCodingStandard.Commenting.UselessFunctionDocComment" />
     <!-- Reports documentation comments containing only {@inheritDoc} annotation because inheritance is automatic and it's not needed to use a special annotation for it. -->
     <rule ref="SlevomatCodingStandard.Commenting.UselessInheritDocComment"/>
     <!-- Forbid assignments in conditions -->
@@ -100,8 +102,8 @@
     <!-- Require an empty line before return statements. -->
     <rule ref="SlevomatCodingStandard.ControlStructures.JumpStatementsSpacing">
         <properties>
-            <property name="tokensToCheck" type="array">
-                <element value="T_RETURN" />
+            <property name="jumpStatements" type="array">
+                <element value="return" />
             </property>
         </properties>
     </rule>
@@ -132,7 +134,9 @@
     <!-- Some functions have $strict parameter. This sniff reports calls to these functions without the parameter or with $strict = false. -->
     <rule ref="SlevomatCodingStandard.Functions.StrictCall"/>
     <!-- Require comma after the last parameter in function or method call (PHP >=7.3) -->
-    <rule ref="SlevomatCodingStandard.Functions.TrailingCommaInCall"/>
+    <rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInCall"/>
+    <!-- Commas after the last parameter in function or method declaration (PHP >=8.0) -->
+    <rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInDeclaration"/>
     <!-- Looks for unused inherited variables passed to closure via use. -->
     <rule ref="SlevomatCodingStandard.Functions.UnusedInheritedVariablePassedToClosure"/>
     <!-- Looks for useless parameter default value. -->
@@ -202,7 +206,8 @@
     <!-- Require presence of declare(strict_types=1) -->
     <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes">
         <properties>
-            <property name="newlinesCountBetweenOpenTagAndDeclare" value="2"/>
+            <property name="linesCountBeforeDeclare" value="1"/>
+            <property name="linesCountAfterDeclare" value="1"/>
             <property name="spacesCountAroundEqualsSign" value="0"/>
         </properties>
     </rule>
@@ -229,7 +234,13 @@
     <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHint">
         <exclude name="SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification" />
     </rule>
-    <rule ref="SlevomatCodingStandard.Commenting.UselessFunctionDocComment" />
+    <!-- Checks format of union type hints. -->
+    <rule ref="SlevomatCodingStandard.TypeHints.UnionTypeHintFormat">
+        <properties>
+            <!-- Union type must be separated by | without spaces -->
+            <property name="withSpaces" value="no"/>
+        </properties>
+    </rule>
     <!-- Reports useless @var annotation (or whole documentation comment) for constants because the type of constant is always clear. -->
     <rule ref="SlevomatCodingStandard.TypeHints.UselessConstantTypeHint"/>
     <!-- Disallows use of super global variables. -->
