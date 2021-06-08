@@ -101,14 +101,7 @@ class ValidRoutingKeyFormatSniff extends AbstractLineCall
         }
 
         // Irregular verbs have custom endings for the simple past tense
-        if (
-            StringHelper::endsWith($action, 'found') ||
-            StringHelper::endsWith($action, 'sent')
-        ) {
-            return true;
-        }
-
-        return false;
+        return StringHelper::endsWith($action, 'found') || StringHelper::endsWith($action, 'sent');
     }
 
     private function getMessagePropertiesArgumentPointer(File $phpcsFile, int $stackPointer): ?int
