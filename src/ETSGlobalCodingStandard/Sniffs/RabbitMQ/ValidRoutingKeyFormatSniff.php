@@ -91,6 +91,14 @@ class ValidRoutingKeyFormatSniff extends AbstractLineCall
             return;
         }
 
+        // Irregular verbs have custom endings for the simple past tense
+        if (
+            StringHelper::endsWith($parts[3], 'found') ||
+            StringHelper::endsWith($parts[3], 'sent')
+        ) {
+            return;
+        }
+
         $phpcsFile->addErrorOnLine(sprintf('Invalid rounting_key "%s" with format "application.entity.id.event": The event must be a verb in past form (ending with -ed)', $routingKey['content']), $tokens[$routingKeyPointer]['line'], self::CODE_INVALID_ROUTING_KEY_FORMAT);
     }
 
