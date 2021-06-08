@@ -20,6 +20,10 @@ class Foo
 
         $this->publish('message_type', [], [], ['routing_key' => 'app.entity.id.created']);
 
+        $this->publish('message_type', [], [], ['routing_key' => 'app.entity.id.found']);
+
+        $this->publish('message_type', [], [], ['routing_key' => 'app.entity.id.sent']);
+
         $this->publish(
             'exam',
             [
