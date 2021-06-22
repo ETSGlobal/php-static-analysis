@@ -2,6 +2,8 @@
 
 class MyPublisher
 {
+    public function __construct() {}
+
     abstract public function somethingBadHappened();
 
     public function somethingHappened() {}
