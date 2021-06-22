@@ -72,6 +72,11 @@ class ValidPublisherMethodNameSniff implements Sniff
         $tokens = $phpcsFile->getTokens();
         $methodName = $tokens[$methodNamePointer]['content'];
 
+        if (StringHelper::startsWith($methodName, '__')) {
+            // Magic method
+            return;
+        }
+
         if (StringHelper::endsWith($methodName, 'ed')) {
             // Method name is valid
             return;
