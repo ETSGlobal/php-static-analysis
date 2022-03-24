@@ -7,5 +7,5 @@ parameters:
 	bootstrapFiles:
 		- tests/bootstrap.php
 		- vendor/squizlabs/php_codesniffer/src/Util/Tokens.php
-	excludes_analyse:
+	excludePaths:
 		- %currentWorkingDirectory%/tests/ETSGlobalCodingStandard/Sniffs/*/data/*

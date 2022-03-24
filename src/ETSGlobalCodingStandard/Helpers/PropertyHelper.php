@@ -32,7 +32,12 @@ class PropertyHelper
         }
 
         $type = $propertyAnnotation->getType();
-        if ($type instanceof IntersectionTypeNode || $type instanceof UnionTypeNode || $type instanceof NullableTypeNode) {
+
+        if (
+            $type instanceof IntersectionTypeNode ||
+            $type instanceof UnionTypeNode ||
+            $type instanceof NullableTypeNode
+        ) {
             return null;
         }
 
