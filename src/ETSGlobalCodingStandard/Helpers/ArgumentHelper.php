@@ -9,16 +9,12 @@ use SlevomatCodingStandard\Helpers\TokenHelper;
 
 class ArgumentHelper
 {
-    /**
-     * Find an argument passed to a function call.
-     *
-     * @param int   $openParenthesisPointer The pointer to the function call opening parenthesis.
-     * @param int   $argumentNumber         The position number of the argument looked for.
-     *
-     * @return int|null                     The pointer to desired argument, null if argument does not exist.
-     */
-    public static function findArgumentPointer(File $phpcsFile, int $openParenthesisPointer, int $argumentNumber = 1): ?int
-    {
+    /** Find an argument passed to a function call.*/
+    public static function findArgumentPointer(
+        File $phpcsFile,
+        int $openParenthesisPointer,
+        ?int $argumentNumber = 1,
+    ): ?int {
         $tokens = $phpcsFile->getTokens();
         $openParenthesis = $tokens[$openParenthesisPointer];
         $closeParenthesisPointer = $openParenthesis['parenthesis_closer'];

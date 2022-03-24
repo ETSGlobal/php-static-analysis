@@ -23,9 +23,7 @@ class ValidMessageStructureSniff extends AbstractLineCall
 {
     public const CODE_INVALID_STRUCTURE = 'InvalidMessageStructure';
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     public function process(File $phpcsFile, $stackPointer)
     {
         if (!$this->isCall($phpcsFile, $stackPointer)) {
@@ -53,8 +51,13 @@ class ValidMessageStructureSniff extends AbstractLineCall
     private function checkDataStructure(File $phpcsFile, int $startPointer): void
     {
         $tokens = $phpcsFile->getTokens();
+
         if (!ArrayHelper::hasKey($phpcsFile, $startPointer, 'data')) {
-            $phpcsFile->addErrorOnLine('Missing "data" property in message structure.', $tokens[$startPointer]['line'], self::CODE_INVALID_STRUCTURE);
+            $phpcsFile->addErrorOnLine(
+                'Missing "data" property in message structure.',
+                $tokens[$startPointer]['line'],
+                self::CODE_INVALID_STRUCTURE,
+            );
 
             return;
         }
@@ -70,7 +73,11 @@ class ValidMessageStructureSniff extends AbstractLineCall
             return;
         }
 
-        $phpcsFile->addErrorOnLine('Properties other than "data" or "meta" are not allowed in message structure.', $tokens[$startPointer]['line'], self::CODE_INVALID_STRUCTURE);
+        $phpcsFile->addErrorOnLine(
+            'Properties other than "data" or "meta" are not allowed in message structure.',
+            $tokens[$startPointer]['line'],
+            self::CODE_INVALID_STRUCTURE,
+        );
     }
 
     private function getDataArgumentPointer(File $phpcsFile, int $stackPointer): ?int

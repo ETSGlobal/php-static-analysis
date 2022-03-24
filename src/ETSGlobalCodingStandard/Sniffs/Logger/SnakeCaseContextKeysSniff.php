@@ -32,9 +32,7 @@ class SnakeCaseContextKeysSniff extends AbstractLineCall
         'log',
     ];
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     public function process(File $phpcsFile, $stackPointer)
     {
         if (!$this->isCall($phpcsFile, $stackPointer)) {
@@ -50,7 +48,10 @@ class SnakeCaseContextKeysSniff extends AbstractLineCall
             return;
         }
 
-        if (!$this->isLoggerPropertyCall($phpcsFile, $stackPointer - 2) && !$this->isLoggerVariableCall($phpcsFile, $stackPointer - 2)) {
+        if (
+            !$this->isLoggerPropertyCall($phpcsFile, $stackPointer - 2) &&
+            !$this->isLoggerVariableCall($phpcsFile, $stackPointer - 2)
+        ) {
             return;
         }
 
@@ -75,14 +76,24 @@ class SnakeCaseContextKeysSniff extends AbstractLineCall
                 break;
             }
 
-            $entryPointer = $phpcsFile->findNext([T_CONSTANT_ENCAPSED_STRING, T_VARIABLE], $currentPointer, $entryEndPointer + 1);
+            $entryPointer = $phpcsFile->findNext(
+                [T_CONSTANT_ENCAPSED_STRING, T_VARIABLE],
+                $currentPointer,
+                $entryEndPointer + 1,
+            );
+
             if ($entryPointer === false) {
                 break;
             }
 
             $doubleArrowPointer = $phpcsFile->findNext([T_DOUBLE_ARROW], $entryPointer, $entryEndPointer);
+
             if ($doubleArrowPointer === false) {
-                $phpcsFile->addErrorOnLine('The context array passed as argument 2 must have all keys set.', $tokens[$entryPointer]['line'], self::CODE_CONTEXT_KEY_NOT_SET);
+                $phpcsFile->addErrorOnLine(
+                    'The context array passed as argument 2 must have all keys set.',
+                    $tokens[$entryPointer]['line'],
+                    self::CODE_CONTEXT_KEY_NOT_SET,
+                );
                 $currentPointer = $entryEndPointer + 1;
 
                 continue;
@@ -92,7 +103,11 @@ class SnakeCaseContextKeysSniff extends AbstractLineCall
                 $value = str_replace('\'', '', $tokens[$entryPointer]['content']);
 
                 if (!$this->isSnakeCase($value)) {
-                    $phpcsFile->addErrorOnLine(sprintf('The key "%s" of context array does not match the snake_case format.', $value), $tokens[$entryPointer]['line'], self::CODE_NO_SNAKE_CASE_CONTEXT_KEY);
+                    $phpcsFile->addErrorOnLine(
+                        sprintf('The key "%s" of context array does not match the snake_case format.', $value),
+                        $tokens[$entryPointer]['line'],
+                        self::CODE_NO_SNAKE_CASE_CONTEXT_KEY,
+                    );
                 }
             }
 

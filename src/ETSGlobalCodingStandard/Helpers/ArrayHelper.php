@@ -9,11 +9,7 @@ use SlevomatCodingStandard\Helpers\TokenHelper;
 
 class ArrayHelper
 {
-    /**
-     * Checks whether the pointer is positioned on an array.
-     *
-     * @param int       $arrayPointer The pointer to the array.
-     */
+    /** Checks whether the pointer is positioned on an array.*/
     public static function isArray(File $phpcsFile, int $arrayPointer): bool
     {
         $tokens = $phpcsFile->getTokens();
@@ -21,12 +17,7 @@ class ArrayHelper
         return $tokens[$arrayPointer]['type'] === 'T_OPEN_SHORT_ARRAY';
     }
 
-    /**
-     * Counts the number of elements in the array.
-     *
-     * @param int   $arrayPointer The pointer to the array.
-     * @return int                The size of the array.
-     */
+    /** Counts the number of elements in the array.*/
     public static function count(File $phpcsFile, int $arrayPointer): int
     {
         $tokens = $phpcsFile->getTokens();
@@ -59,23 +50,13 @@ class ArrayHelper
         return $count;
     }
 
-    /**
-     * Checks whether an array contains a key.
-     *
-     * @param int       $arrayPointer The pointer to the array opening bracket.
-     * @param string    $key          The key to search for.
-     */
+    /** Checks whether an array contains a key.*/
     public static function hasKey(File $phpcsFile, int $arrayPointer, string $key): bool
     {
         return self::findKey($phpcsFile, $arrayPointer, $key) !== null;
     }
 
-    /**
-     * Returns the pointer to the value at given key.
-     *
-     * @param int       $arrayPointer The pointer to the array opening bracket.
-     * @param string    $key          The key to of the array entry.
-     */
+    /** Returns the pointer to the value at given key.*/
     public static function getValuePointerAtKey(File $phpcsFile, int $arrayPointer, string $key): ?int
     {
         $keyPointer = self::findKey($phpcsFile, $arrayPointer, $key);
@@ -96,12 +77,7 @@ class ArrayHelper
         return $valuePointer;
     }
 
-    /**
-     * Finds the pointer to the given key string.
-     *
-     * @param int       $arrayPointer The pointer to the array opening bracket.
-     * @param string    $key          The key to search for.
-     */
+    /** Finds the pointer to the given key string. */
     private static function findKey(File $phpcsFile, int $arrayPointer, string $key): ?int
     {
         $tokens = $phpcsFile->getTokens();
@@ -116,7 +92,12 @@ class ArrayHelper
                 return null;
             }
 
-            $entryPointer = $phpcsFile->findNext([T_CONSTANT_ENCAPSED_STRING, T_VARIABLE], $currentPointer, $nextDelimiterPointer);
+            $entryPointer = $phpcsFile->findNext(
+                [T_CONSTANT_ENCAPSED_STRING, T_VARIABLE],
+                $currentPointer,
+                $nextDelimiterPointer,
+            );
+
             if ($entryPointer === false) {
                 // No key token candidate found.
                 $currentPointer = $nextDelimiterPointer + 1;
@@ -132,7 +113,10 @@ class ArrayHelper
                 continue;
             }
 
-            if ($tokens[$entryPointer]['type'] === 'T_CONSTANT_ENCAPSED_STRING' && $tokens[$entryPointer]['content'] === sprintf('\'%s\'', $key)) {
+            if (
+                $tokens[$entryPointer]['type'] === 'T_CONSTANT_ENCAPSED_STRING' &&
+                $tokens[$entryPointer]['content'] === sprintf('\'%s\'', $key)
+            ) {
                 return $entryPointer;
             }
 
