@@ -1,6 +1,9 @@
 WORKSPACE ?= $(PWD)
 REPORTS_DIR ?= build/reports
 
+audit: phpcs phpmd phpstan ## Run static code analysis
+.PHONY: audit
+
 phpcs: ## Run PHP_CodeSniffer
 	vendor/bin/phpcs --standard=phpcs.xml --extensions=php --ignore=vendor $(EXTRA_ARGS) .
 phpcs-ci: prepare-ci ## Run PHP_CodeSniffer (CI)
