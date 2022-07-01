@@ -41,6 +41,7 @@ jobs:
         name: ${{ matrix.tool }}-reports
         path: build/**/*.junit.xml
         retention-days: 1
+        if-no-files-found: ignore
 
   php_report:
     name: Report PHP code quality
@@ -57,11 +58,19 @@ jobs:
       with:
         name: phpunit-reports
         path: build/
+      continue-on-error: true
     - name: Download phpcs reports
       uses: actions/download-artifact@fb598a63ae348fa914e94cd0ff38f362e927b741 # renovate: tag=v3.0.0
       with:
         name: phpcs-reports
         path: build/
+      continue-on-error: true
+    - name: Download phpcpd reports
+      uses: actions/download-artifact@fb598a63ae348fa914e94cd0ff38f362e927b741 # renovate: tag=v3.0.0
+      with:
+        name: phpcpd-reports
+        path: build/
+      continue-on-error: true
 
     - name: Report analisys results
       uses: mikepenz/action-junit-report@127c778ac944abc0f48a5103964304bab7eb208b # renovate: tag=v2.9.1
