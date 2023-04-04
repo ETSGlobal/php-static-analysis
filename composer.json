@@ -24,5 +24,10 @@
             "ETSGlobalCodingStandard\\": "tests\\ETSGlobalCodingStandard\\"
         }
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
 }
