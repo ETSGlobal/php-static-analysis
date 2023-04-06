@@ -5,3 +5,4 @@
 
 /.phpcs-cache
 .php_cs.cache
+.phpcs-cache
