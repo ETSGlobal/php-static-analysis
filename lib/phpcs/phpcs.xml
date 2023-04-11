@@ -3,9 +3,6 @@
     <arg name="extensions" value="php"/>
     <arg name="colors" />
 
-    <arg name="basepath" value="."/>
-    <arg name="cache" value=".phpcs-cache"/>
-    
     <!-- Show progress of the run -->
     <arg value="sp"/>
 
