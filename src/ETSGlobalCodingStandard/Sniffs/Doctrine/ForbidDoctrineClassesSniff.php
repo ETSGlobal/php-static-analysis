@@ -42,6 +42,8 @@ class ForbidDoctrineClassesSniff implements Sniff
         'App\Persistence',
         'App\Repository',
         'Tests\\',
+        'ETSGlobal\Infrastructure\Persistence\Doctrine\ODM\Adapter',
+        'ETSGlobal\Infrastructure\Persistence\Doctrine\ODM\Repository\RepositoryGetter',
     ];
 
     public function register(): array
