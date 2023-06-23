@@ -6,7 +6,7 @@
     "require": {
         "php": "^8.1",
         "jangregor/phpstan-prophecy": "^1.0",
-        "pdepend/pdepend": "2.13.0",
+        "pdepend/pdepend": "^2.14",
         "phpmd/phpmd": "^2.12",
         "phpspec/prophecy-phpunit": "^2.0",
         "phpstan/phpstan": "^1.8",
