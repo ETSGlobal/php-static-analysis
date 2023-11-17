@@ -4,7 +4,7 @@ on:
   pull_request:
 
 env:
-  PHP_VERSION: 8.2.7
+  PHP_VERSION: 8.3.0
 
 jobs:
   cache_dependencies:
@@ -25,6 +25,7 @@ jobs:
       uses: php-actions/composer@d936bcb900310224b9089aff3337f2221a8df9a0 # renovate: tag=v6.0.0
       with:
         php_version: ${{ env.PHP_VERSION }}
+        args: --ignore-platform-reqs
 
   php_analysis:
     name: Code quality checks
