@@ -4,9 +4,9 @@
     "type": "phpcodesniffer-standard",
     "license": "MIT",
     "require": {
-        "php": "^8.2",
+        "php": "^8.3",
         "jangregor/phpstan-prophecy": "^1.0",
-        "pdepend/pdepend": "^2.14",
+        "pdepend/pdepend": "dev-master",
         "phpmd/phpmd": "^2.12",
         "phpspec/prophecy-phpunit": "^2.0",
         "phpstan/phpstan": "^1.8",
