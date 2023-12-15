@@ -12,7 +12,7 @@ phpcs-ci: prepare-ci ## Run PHP_CodeSniffer (CI)
 
 PHPMD_FORMAT ?= text
 phpmd: ## Run PHP Mess Detector
-	 vendor/bin/phpmd src $(PHPMD_FORMAT) phpmd.xml --suffixes=php $(EXTRA_ARGS)
+	 vendor/bin/phpmd src $(PHPMD_FORMAT) phpmd.xml --suffixes php $(EXTRA_ARGS)
 phpmd-ci: prepare-ci ## Run PHP Mess Detector (CI)
 	PHPMD_FORMAT="github" $(MAKE) phpmd
 .PHONY: phpmd phpmd-ci
