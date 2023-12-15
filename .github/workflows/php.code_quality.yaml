@@ -68,7 +68,7 @@ jobs:
     - name: Create build/ directory
       run: mkdir -p build
 
-    # NOTE: only phpunit, phpcs & phpcpd generate reports
+    # NOTE: only phpunit, phpcs generate reports
     - name: Download phpunit reports
       uses: actions/download-artifact@fb598a63ae348fa914e94cd0ff38f362e927b741 # renovate: tag=v3.0.0
       with:
