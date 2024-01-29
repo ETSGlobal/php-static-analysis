@@ -3,8 +3,12 @@ updates:
   - package-ecosystem: "composer"
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: "monthly"
     versioning-strategy: widen
+    groups:
+      symfony:
+        patterns:
+          - "symfony*"
     labels:
       - "RFR"
       - "dependencies"
