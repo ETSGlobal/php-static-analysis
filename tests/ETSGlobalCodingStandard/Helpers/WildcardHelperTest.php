@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class WildcardHelperTest extends TestCase
 {
-    public function provideTestcases(): array
+    public static function provideTestcases(): array
     {
         return [
             // Match
