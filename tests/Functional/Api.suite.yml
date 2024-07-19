@@ -1,0 +1,32 @@
+actor: ApiTester
+modules:
+    enabled:
+        - REST:
+              url: /api/
+              depends: Symfony
+        - Symfony:
+            app_path: 'src'
+            environment: 'test'
+        - MongoDb:
+            dsn: '%MONGODB_URL%'
+            user: ''
+            password: ''
+            populate: true
+            cleanup: true
+        - AMQP:
+            host: '%RABBITMQ_HOST%'
+            port: '5672'
+            username: '%RABBITMQ_LOGIN%'
+            password: '%RABBITMQ_PASSWORD%'
+            vhost: '/'
+            single_channel: false
+        - Phiremock:
+              host: 127.0.0.1
+              port: 18080
+              secure: false
+              extra_connections: []
+              reset_before_each_test: true
+step_decorators:
+    - Codeception\Step\ConditionalAssertion
+    - Codeception\Step\TryTo
+    - Codeception\Step\Retry
