@@ -1,8 +1,0 @@
-[2024-05-21T10:45:21.277747+00:00] stdoutLogger.INFO: [2024-05-21 10:45:21] Starting Phiremock in debug mode... [] []
-[2024-05-21T10:45:21.278941+00:00] stdoutLogger.DEBUG: Phiremock's expectation dir is set to: /home/www-data/.phiremock/expectations/ [] []
-[2024-05-21T10:45:21.279688+00:00] stdoutLogger.INFO: Loading expectations from directory /home/www-data/.phiremock/expectations [] []
-[2024-05-21T10:45:21.283072+00:00] stdoutLogger.DEBUG: Registering shutdown function [] []
-[2024-05-21T10:45:21.286267+00:00] stdoutLogger.INFO: Phiremock http server listening on 127.0.0.1:18080 over http [] []
-[2024-05-21T10:45:22.240353+00:00] stdoutLogger.DEBUG: Executing reset [] []
-[2024-05-21T10:45:22.240435+00:00] stdoutLogger.DEBUG: Pre-defined expectations are restored, scenarios and requests history are cleared. [] []
-[2024-05-21T10:45:22.240468+00:00] stdoutLogger.DEBUG: Processing took 2.199 milliseconds [] []

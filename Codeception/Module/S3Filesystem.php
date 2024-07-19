@@ -90,7 +90,6 @@ class S3Filesystem extends Filesystem
             }
 
             return count($results['Contents']);
-
         } catch (\Throwable $e) {
             assert::fail($e->getMessage());
         }
@@ -105,7 +104,7 @@ class S3Filesystem extends Filesystem
 
             foreach ($keys as $key) {
                 $keyExplode = explode('/', $key);
-                $result[] = $keyExplode[\count($keyExplode) -1];
+                $result[] = $keyExplode[\count($keyExplode) - 1];
             }
 
             return $result;
@@ -125,7 +124,6 @@ class S3Filesystem extends Filesystem
             }
 
             return array_map(static fn (array $file) => $file['Key'], $results['Contents']);
-
         } catch (\Throwable $e) {
             assert::fail($e->getMessage());
         }
