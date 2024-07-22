@@ -29,7 +29,8 @@
     },
     "autoload": {
         "psr-4": {
-            "ETSGlobalCodingStandard\\": "src\\ETSGlobalCodingStandard\\"
+            "ETSGlobalCodingStandard\\": "src\\ETSGlobalCodingStandard\\",
+            "Codeception\\Module\\": "Codeception/Module"
         }
     },
     "autoload-dev": {
