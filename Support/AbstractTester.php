@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Support;
+namespace ETSGlobal\Codeception\Support;
 
 use Codeception\Actor;
 
