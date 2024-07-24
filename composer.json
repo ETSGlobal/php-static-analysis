@@ -30,13 +30,15 @@
     "autoload": {
         "psr-4": {
             "ETSGlobalCodingStandard\\": "src\\ETSGlobalCodingStandard\\",
-            "Codeception\\Module\\": "Codeception/Module"
+            "Codeception\\Module\\": "Codeception/Module",
+            "ETSGlobal\\Codeception\\Support\\": "Support"
         }
     },
     "autoload-dev": {
         "psr-4": {
             "ETSGlobalCodingStandard\\": "tests\\ETSGlobalCodingStandard\\",
-            "Codeception\\Module\\": "Codeception/Module"
+            "Codeception\\Module\\": "Codeception/Module",
+            "ETSGlobal\\Codeception\\Support\\": "Support"
         }
     },
     "minimum-stability": "stable",
