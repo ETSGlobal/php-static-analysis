@@ -54,14 +54,12 @@ class Redis extends Module
 {
     public ?RedisDriver $driver = null;
 
-    #[\Override]
     protected array $config = [
         'host' => '127.0.0.1',
         'port' => 6379,
         'cleanupBefore' => 'never',
     ];
 
-    #[\Override]
     protected array $requiredFields = ['database'];
 
     #[\Override]
