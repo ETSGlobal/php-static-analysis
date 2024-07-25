@@ -10,6 +10,7 @@
         "codeception/module-asserts": "^3.0",
         "codeception/module-filesystem": "*",
         "codeception/module-mongodb": "^3.0",
+        "codeception/module-redis": "^3.1",
         "codeception/module-rest": "^3.0",
         "codeception/module-symfony": "^3.3",
         "jangregor/phpstan-prophecy": "^1.0",
