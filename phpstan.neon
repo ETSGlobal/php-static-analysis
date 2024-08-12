@@ -1,9 +1,9 @@
 includes:
     - vendor/phpstan/phpstan-phpunit/extension.neon
     - vendor/phpstan/phpstan-phpunit/rules.neon
+    - lib/phpstan/phpstan.neon
 
 parameters:
-    checkMissingIterableValueType: false
     bootstrapFiles:
         - tests/bootstrap.php
         - vendor/squizlabs/php_codesniffer/src/Util/Tokens.php
