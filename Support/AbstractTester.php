@@ -64,7 +64,7 @@ abstract class AbstractTester extends Actor
         $message = $this->grabMessageFromQueue(self::getQueue($routingKey));
 
         if (!$message instanceof AMQPMessage) {
-            $this->fail('Message was not received');
+            Assert::fail('Message was not received');
         }
 
         Assert::assertThat($message->getBody(), new JsonContains($json));
