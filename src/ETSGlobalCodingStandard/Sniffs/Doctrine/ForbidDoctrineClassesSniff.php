@@ -14,7 +14,7 @@ use SlevomatCodingStandard\Helpers\ReferencedNameHelper;
  */
 class ForbidDoctrineClassesSniff implements Sniff
 {
-    public const FORBIDDEN_CLASS_FOUND = 'ForbiddenDoctrineClassFound';
+    public const string FORBIDDEN_CLASS_FOUND = 'ForbiddenDoctrineClassFound';
 
     /**
      * List of classes that should not be used.
@@ -49,9 +49,7 @@ class ForbidDoctrineClassesSniff implements Sniff
         return [\T_OPEN_TAG];
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     public function process(File $phpcsFile, $stackPtr): void
     {
         // Get all referenced names in file from native Typehints (no annotations)
@@ -91,11 +89,11 @@ class ForbidDoctrineClassesSniff implements Sniff
 
         // Handle wildcard exclusions
         foreach ($this->ignoredNamespaces as $ignoredNamespace) {
-            if (substr($ignoredNamespace, -1) !== '\\') {
+            if (!str_ends_with($ignoredNamespace, '\\')) {
                 continue;
             }
 
-            if (strpos($currentNamespace, $ignoredNamespace) === 0) {
+            if (str_starts_with($currentNamespace, $ignoredNamespace)) {
                 return true;
             }
         }

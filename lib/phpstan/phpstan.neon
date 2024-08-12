@@ -1,3 +1,5 @@
 parameters:
     checkMissingIterableValueType: false
-    checkGenericClassInNonGenericObjectType: false
+    ignoreErrors:
+        - '#Cannot call method (log|debug|info|notice|warning|error|critical|alert|emergency)\(\) on Psr\\Log\\LoggerInterface\|null.#'
+        - '#Access to an undefined property Prophecy\\Prophecy\\ObjectProphecy<.*>::\$.*.#'

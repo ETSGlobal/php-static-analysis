@@ -16,8 +16,8 @@ use SlevomatCodingStandard\Sniffs\Functions\AbstractLineCall;
  */
 class SnakeCaseContextKeysSniff extends AbstractLineCall
 {
-    public const CODE_CONTEXT_KEY_NOT_SET = 'ContextKeyNotSet';
-    public const CODE_NO_SNAKE_CASE_CONTEXT_KEY = 'NoSnakeCaseContextKey';
+    public const string CODE_CONTEXT_KEY_NOT_SET = 'ContextKeyNotSet';
+    public const string CODE_NO_SNAKE_CASE_CONTEXT_KEY = 'NoSnakeCaseContextKey';
 
     /** @var string[] */
     private static $loggerMethods = [

@@ -24,8 +24,8 @@ use SlevomatCodingStandard\Helpers\TokenHelper;
  */
 class ForbidRepositoryInjectionSniff implements Sniff
 {
-    public const FORBIDDEN_REPOSITORY_INJECTION = 'ForbiddenRepositoryInjection';
-    public const FORBIDDEN_REPOSITORY_PROPERTY = 'ForbiddenRepositoryProperty';
+    public const string FORBIDDEN_REPOSITORY_INJECTION = 'ForbiddenRepositoryInjection';
+    public const string FORBIDDEN_REPOSITORY_PROPERTY = 'ForbiddenRepositoryProperty';
 
     /**
      * All classes matching these FQCN glob patterns will be considered to be Doctrine repositories.
@@ -41,9 +41,7 @@ class ForbidRepositoryInjectionSniff implements Sniff
         return [T_FUNCTION, T_PUBLIC, T_PROTECTED, T_PRIVATE];
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     public function process(File $phpcsFile, $stackPtr): void
     {
         $tokens = $phpcsFile->getTokens();
