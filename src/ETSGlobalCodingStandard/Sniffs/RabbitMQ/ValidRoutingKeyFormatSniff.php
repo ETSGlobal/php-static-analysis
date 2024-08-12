@@ -19,8 +19,8 @@ use SlevomatCodingStandard\Sniffs\Functions\AbstractLineCall;
  */
 class ValidRoutingKeyFormatSniff extends AbstractLineCall
 {
-    public const CODE_MISSING_ROUTING_KEY = 'MissingRoutingKey';
-    public const CODE_INVALID_ROUTING_KEY_FORMAT = 'InvalidRoutingKeyFormat';
+    public const string CODE_MISSING_ROUTING_KEY = 'MissingRoutingKey';
+    public const string CODE_INVALID_ROUTING_KEY_FORMAT = 'InvalidRoutingKeyFormat';
 
     /** {@inheritDoc} */
     public function process(File $phpcsFile, $stackPointer)

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ETSGlobalCodingStandard\Helpers;
 
 use PHP_CodeSniffer\Files\File;
+use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
 use PHPStan\PhpDocParser\Ast\Type\IntersectionTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\NullableTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
@@ -25,7 +26,7 @@ class PropertyHelper
 
         // Check PHPDoc type (legacy support)
         $varAnnotations = AnnotationHelper::getAnnotations($phpcsFile, $propertyPointer, '@var');
-        /** @var ?Annotation $annotation */
+        /** @var ?Annotation<VarTagValueNode> $annotation */
         $annotation = count($varAnnotations) > 0 ? $varAnnotations[0] : null;
 
         if ($annotation === null) {
@@ -45,6 +46,7 @@ class PropertyHelper
         return null;
     }
 
+    /** @param Annotation<VarTagValueNode> $annotation */
     public static function getAnnotationType(Annotation $annotation): ?TypeNode
     {
         if (!property_exists($annotation->getValue(), 'type')) {

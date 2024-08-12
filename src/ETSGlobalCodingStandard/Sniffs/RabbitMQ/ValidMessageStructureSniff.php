@@ -21,7 +21,7 @@ use SlevomatCodingStandard\Sniffs\Functions\AbstractLineCall;
  */
 class ValidMessageStructureSniff extends AbstractLineCall
 {
-    public const CODE_INVALID_STRUCTURE = 'InvalidMessageStructure';
+    public const string CODE_INVALID_STRUCTURE = 'InvalidMessageStructure';
 
     /** {@inheritDoc} */
     public function process(File $phpcsFile, $stackPointer)

@@ -18,7 +18,7 @@ use SlevomatCodingStandard\Helpers\TokenHelper;
  */
 class ValidPublisherMethodNameSniff implements Sniff
 {
-    public const CODE_INVALID_PUBLISHER_METHOD_NAME = 'InvalidPublisherMethodName';
+    public const string CODE_INVALID_PUBLISHER_METHOD_NAME = 'InvalidPublisherMethodName';
 
     public function register(): array
     {
@@ -27,9 +27,7 @@ class ValidPublisherMethodNameSniff implements Sniff
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     public function process(File $phpcsFile, $stackPointer)
     {
         $className = ClassHelper::getName($phpcsFile, $stackPointer);
