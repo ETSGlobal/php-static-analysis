@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace ETSGlobal\Codeception\Support;
 
 use Codeception\Actor;
+use Codeception\PHPUnit\Constraint\JsonContains;
+use PhpAmqpLib\Message\AMQPMessage;
+use PHPUnit\Framework\Assert;
 
 use function Mcustiel\Phiremock\Client\contains;
 use function Mcustiel\Phiremock\Client\getRequest;
@@ -28,7 +31,7 @@ abstract class AbstractTester extends Actor
                 continue;
             }
 
-            $queueName = self::QUEUE_PREFIX . $routingKey;
+            $queueName = self::getQueue($routingKey);
 
             $this->declareQueue($queueName);
 
@@ -44,14 +47,27 @@ abstract class AbstractTester extends Actor
     {
         usleep(self::USLEEP_VALUE);
 
-        $this->seeMessageInQueueContainsText(self::QUEUE_PREFIX . $routingKey, $text);
+        $this->seeMessageInQueueContainsText(self::getQueue($routingKey), $text);
     }
 
     public function dontSeeMessageWithRoutingKey(string $routingKey): void
     {
         usleep(self::USLEEP_VALUE);
 
-        $this->seeQueueIsEmpty(self::QUEUE_PREFIX . $routingKey);
+        $this->seeQueueIsEmpty(self::getQueue($routingKey));
+    }
+
+    public function seeMessageWithRoutingKeyContainsJson(string $routingKey, array $json): void
+    {
+        usleep(self::USLEEP_VALUE);
+
+        $message = $this->grabMessageFromQueue(self::getQueue($routingKey));
+
+        if (!$message instanceof AMQPMessage) {
+            $this->fail('Message was not received');
+        }
+
+        Assert::assertThat($message->getBody(), new JsonContains($json));
     }
 
     public function initializeMongoDb(): void
@@ -61,6 +77,24 @@ abstract class AbstractTester extends Actor
         } catch (\Throwable $e) {
             // Don't fail if db already exists
         }
+    }
+
+    public function runConsumer(
+        string $consumerName,
+        string $queue,
+        array $message,
+        array $messageProperty = [],
+        int $maxMessage = 1,
+        int $expectedExitCode = 0,
+    ): string {
+        $this->pushToExchange('', new AMQPMessage(json_encode($message), $messageProperty), $queue);
+
+        $command = sprintf('swarrot:consume:%s', $consumerName);
+
+        return $this->runSymfonyConsoleCommand(
+            $command,
+            ['queue' => $queue, '--max-messages' => $maxMessage, [], $expectedExitCode],
+        );
     }
 
     public function haveEmoLogin(string $emoUrl): void
@@ -95,5 +129,10 @@ abstract class AbstractTester extends Actor
         $loginRequest = getRequest()->andUrl(isEqualTo('/emo/auth'));
 
         $this->seeRemoteServiceReceived(1, $loginRequest->andHeader('Cookie', isEqualTo('cookie')));
+    }
+
+    private static function getQueue(string $routingKey): string
+    {
+        return self::QUEUE_PREFIX . $routingKey;
     }
 }
