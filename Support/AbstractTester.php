@@ -8,6 +8,7 @@ use Codeception\Actor;
 use Codeception\PHPUnit\Constraint\JsonContains;
 use PhpAmqpLib\Message\AMQPMessage;
 use PHPUnit\Framework\Assert;
+use Symfony\Component\Cache\Adapter\AdapterInterface;
 
 use function Mcustiel\Phiremock\Client\contains;
 use function Mcustiel\Phiremock\Client\getRequest;
@@ -129,6 +130,15 @@ abstract class AbstractTester extends Actor
         $loginRequest = getRequest()->andUrl(isEqualTo('/emo/auth'));
 
         $this->seeRemoteServiceReceived(1, $loginRequest->andHeader('Cookie', isEqualTo('cookie')));
+
+        /** @var ?AdapterInterface $emoAuthenticationCache */
+        $emoAuthenticationCache = $this->grabService('emo_authentication.cache');
+
+        if (!$emoAuthenticationCache) {
+            return;
+        }
+
+        $emoAuthenticationCache->clear();
     }
 
     private static function getQueue(string $routingKey): string
